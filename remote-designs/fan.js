@@ -34,17 +34,21 @@ export const fanRemote = {
           </svg>
         </button>
       </div>
-      <button class="wide-button" data-action="reverse">⇄ &nbsp; REVERSE</button>
+      <button class="wide-button press-feedback" data-action="reverse">⇄ &nbsp; REVERSE</button>
       <div class="three-buttons">
-        <button class="mode-button" data-action="eco">ECO</button>
-        <button class="mode-button" data-action="light">💡</button>
-        <button class="mode-button" data-action="max">MAX</button>
+        <button class="mode-button press-feedback" data-action="eco">ECO</button>
+        <button class="mode-button press-feedback" data-action="light">💡</button>
+        <button class="mode-button press-feedback" data-action="max">MAX</button>
       </div>
       <div class="section-title">TIMER</div>
       <div class="three-buttons">
-        <button class="mode-button" data-action="timer_1h">◷ &nbsp; 1H</button>
-        <button class="mode-button" data-action="timer_4h">◷ &nbsp; 4H</button>
-        <button class="mode-button" data-action="timer_8h">◷ &nbsp; 8H</button>
-      </div>`;
+        <button class="mode-button press-feedback" data-action="timer_1h">◷ &nbsp; 1H</button>
+        <button class="mode-button press-feedback" data-action="timer_4h">◷ &nbsp; 4H</button>
+        <button class="mode-button press-feedback" data-action="timer_8h">◷ &nbsp; 8H</button>
+      </div>
+      <style>
+        .press-feedback{transition:transform .1s,box-shadow .1s,filter .1s!important}
+        .press-feedback:active{transform:translateY(2px)!important;box-shadow:0 3px 8px var(--shadow),inset 0 2px 5px var(--shadow)!important;filter:brightness(.96)!important}
+      </style>`;
   },
 };
