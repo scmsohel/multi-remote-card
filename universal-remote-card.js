@@ -55,28 +55,28 @@ const waltonCeilingFanRemote = {
       </style>
       <div class="walton-body walton-modern">
         <div class="walton-top">
-          <button class="walton-pill" data-action="power">${powerIcon}<span>POWER</span></button>
-          <button class="walton-pill" data-action="led">${ledIcon}<span>LED</span></button>
+          <button class="mode-button walton-pill" data-action="power">${powerIcon}<span>POWER</span></button>
+          <button class="mode-button walton-pill" data-action="led">${ledIcon}<span>LED</span></button>
         </div>
         <div class="walton-circle ${on ? 'on' : ''}">
-          <button class="walton-speed w1" data-action="speed_1">1</button>
-          <button class="walton-speed w2" data-action="speed_2">2</button>
-          <button class="walton-speed w3" data-action="speed_3">3</button>
-          <button class="walton-speed w4" data-action="speed_4">4</button>
-          <button class="walton-speed w5" data-action="speed_5">5</button>
-          <button class="walton-speed w6" data-action="speed_6">6</button>
-          <button class="walton-center" data-action="max" aria-label="Max Speed">
+          <button class="speed walton-speed w1" data-action="speed_1">1</button>
+          <button class="speed walton-speed w2" data-action="speed_2">2</button>
+          <button class="speed walton-speed w3" data-action="speed_3">3</button>
+          <button class="speed walton-speed w4" data-action="speed_4">4</button>
+          <button class="speed walton-speed w5" data-action="speed_5">5</button>
+          <button class="speed walton-speed w6" data-action="speed_6">6</button>
+          <button class="fan-button walton-center" data-action="max" aria-label="Max Speed">
             <svg class="walton-fan-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="currentColor"><path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/><path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/><path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14-2-21-1-2 3-3 4-1z"/><path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/><circle cx="32" cy="32" r="6"/></g></svg>
           </button>
         </div>
         <div class="walton-timers">
-          <button data-action="timer_2h">${clockIcon}<span>2H</span></button>
-          <button data-action="timer_4h">${clockIcon}<span>4H</span></button>
-          <button data-action="timer_8h">${clockIcon}<span>8H</span></button>
+          <button class="mode-button" data-action="timer_2h">${clockIcon}<span>2H</span></button>
+          <button class="mode-button" data-action="timer_4h">${clockIcon}<span>4H</span></button>
+          <button class="mode-button" data-action="timer_8h">${clockIcon}<span>8H</span></button>
         </div>
         <div class="walton-bottom">
-          <button data-action="eco">ECO</button>
-          <button data-action="reverse">${revIcon}<span>REV</span></button>
+          <button class="mode-button" data-action="eco">ECO</button>
+          <button class="wide-button" data-action="reverse">${revIcon}<span>REV</span></button>
         </div>
       </div>`;
   },
