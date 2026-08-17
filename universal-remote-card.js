@@ -3,7 +3,8 @@
 const THEME_OPTIONS=[{value:'auto',label:'Auto'},{value:'light',label:'Light'},{value:'dark',label:'Dark'}];
 const fanRemote={id:'fan',label:'Fan',defaultName:'Basic Celling Fan',controls:[{key:'fan',label:'Fan'},{key:'light',label:'Light'},...Array.from({length:6},(_,i)=>({key:`speed_${i+1}`,label:`Speed ${i+1}`})),{key:'reverse',label:'Reverse'},{key:'eco',label:'ECO'},{key:'max',label:'MAX'},{key:'timer_1h',label:'Timer 1H'},{key:'timer_4h',label:'Timer 4H'},{key:'timer_8h',label:'Timer 8H'}],render(ctx){const f=ctx.state(ctx.room.fan),on=f?.state==='on',pct=Number(f?.attributes?.percentage||0),sp=pct?Math.max(1,Math.min(6,Math.round(pct/100*6))):0;return `<div class="design-title">${ctx.escape(ctx.room.device_name||this.defaultName)}</div><div class="fan-area">${[1,2,3,4,5,6].map(n=>`<button class="speed s${n} ${sp===n?'active':''}" data-action="speed_${n}">${n}</button>`).join('')}<button class="fan-button ${on?'on':''}" data-action="fan"><svg class="fan-icon" viewBox="0 0 64 64"><g fill="${on?'var(--fan-on)':'var(--fan)'}"><path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/><path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/><path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14 2-21-1-2 3-3 4-1z"/><path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/><circle cx="32" cy="32" r="6" fill="${on?'var(--fan-on-center)':'var(--fan-center)'}"/></g></svg></button></div><button class="wide-button" data-action="reverse">⇄ &nbsp; REVERSE</button><div class="three-buttons"><button class="mode-button" data-action="eco">ECO</button><button class="mode-button" data-action="light">💡</button><button class="mode-button" data-action="max">MAX</button></div><div class="section-title">TIMER</div><div class="three-buttons"><button class="mode-button" data-action="timer_1h">◷ &nbsp; 1H</button><button class="mode-button" data-action="timer_4h">◷ &nbsp; 4H</button><button class="mode-button" data-action="timer_8h">◷ &nbsp; 8H</button></div>`;}};
 // Modern segmented Walton remote layout.
-const waltonCeilingFanRemote={
+// Final Walton Ceiling Fan remote design.
+const waltonCeilingFanRemote = {
   id: 'walton-ceiling-fan',
   label: 'Walton Ceiling Fan',
   defaultName: 'Walton Ceiling Fan',
@@ -25,7 +26,27 @@ const waltonCeilingFanRemote={
     const ledIcon = `<svg viewBox="0 0 64 64" class="walton-control-icon" aria-hidden="true"><path d="M22 39h20M24 46h16M27 53h10"/><path d="M20 28a12 12 0 1 1 24 0c0 5-3 7-6 11H26c-3-4-6-6-6-11z"/><path d="M32 4v6M9 13l5 4M55 13l-5 4"/></svg>`;
     const revIcon = `<svg viewBox="0 0 64 64" class="walton-rev-icon" aria-hidden="true"><path d="M12 27h28c9 0 14 5 14 13s-5 13-14 13H25"/><path d="M25 45l-8 8 8 8"/><path d="M52 37H24c-9 0-14-5-14-13s5-13 14-13h15"/><path d="M39 3l8 8-8 8"/></svg>`;
     return `
-      <div class="design-title">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
+      <style>
+        .walton-modern{width:100%;max-width:520px;margin:0 auto;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .walton-modern *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        .walton-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 22px}
+        .walton-pill,.walton-timers button,.walton-bottom button{border:0;background:var(--button);color:var(--button-text);box-shadow:0 7px 16px var(--shadow);cursor:pointer}
+        .walton-pill{height:58px;border-radius:30px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:17px;font-weight:750}
+        .walton-pill:active,.walton-speed:active,.walton-center:active,.walton-timers button:active,.walton-bottom button:active{transform:translateY(3px) scale(.98)}
+        .walton-control-icon{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+        .walton-circle{position:relative;width:min(430px,100%);aspect-ratio:1;margin:0 auto 22px;border-radius:50%;background:radial-gradient(circle,var(--c1),var(--c2));border:1px solid var(--border);box-shadow:inset 0 0 24px var(--border),0 15px 30px var(--shadow)}
+        .walton-speed{position:absolute;width:78px;height:78px;border:0;border-radius:50%;background:var(--button);color:var(--button-text);font-size:25px;font-weight:650;box-shadow:0 8px 18px var(--shadow);cursor:pointer;transform:translate(-50%,-50%);transition:.1s}
+        .walton-speed.w3{left:50%;top:13%}.walton-speed.w2{left:20%;top:31%}.walton-speed.w4{left:80%;top:31%}.walton-speed.w1{left:20%;top:69%}.walton-speed.w5{left:80%;top:69%}.walton-speed.w6{left:50%;top:87%}
+        .walton-center{position:absolute;left:50%;top:50%;width:112px;height:112px;transform:translate(-50%,-50%);border:0;border-radius:50%;background:var(--button);color:var(--button-text);display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 2px 7px var(--shadow),0 8px 18px var(--shadow);transition:.1s}
+        .walton-fan-icon{width:57px;height:57px}
+        .walton-timers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 12px}
+        .walton-timers button{height:54px;border-radius:27px;font-size:16px;font-weight:750;transition:.1s}
+        .walton-bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .walton-bottom button{height:58px;border-radius:30px;font-size:17px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:8px;transition:.1s}
+        .walton-rev-icon{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+        @media (max-width:420px){.walton-pill{height:52px;font-size:14px}.walton-speed{width:62px;height:62px;font-size:21px}.walton-center{width:92px;height:92px}.walton-fan-icon{width:48px;height:48px}.walton-timers button{height:48px;font-size:14px}.walton-bottom button{height:52px;font-size:14px}}
+      </style>
+      <div class="design-title">FAN</div>
       <div class="walton-body walton-modern">
         <div class="walton-top">
           <button class="walton-pill" data-action="power">${powerIcon}<span>POWER</span></button>
