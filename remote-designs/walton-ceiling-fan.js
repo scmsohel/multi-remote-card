@@ -21,7 +21,7 @@ export const waltonCeilingFanRemote = {
     const revIcon = `<svg viewBox="0 0 64 64" class="walton-rev-icon" aria-hidden="true"><path d="M12 27h28c9 0 14 5 14 13s-5 13-14 13H25"/><path d="M25 45l-8 8 8 8"/><path d="M52 37H24c-9 0-14-5-14-13s5-13 14-13h15"/><path d="M39 3l8 8-8 8"/></svg>`;
     return `
       <div class="design-title">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
-      <div class="walton-body">
+      <div class="walton-body walton-modern">
         <div class="walton-top">
           <button class="walton-pill" data-action="power">${powerIcon}<span>POWER</span></button>
           <button class="walton-pill" data-action="led">${ledIcon}<span>LED</span></button>
