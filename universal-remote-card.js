@@ -24,6 +24,7 @@ const waltonCeilingFanRemote = {
     const on = power?.state === 'on';
     const powerIcon = `<svg viewBox="0 0 64 64" class="walton-control-icon" aria-hidden="true"><path d="M32 8v25"/><path d="M18 16a24 24 0 1 0 28 0"/></svg>`;
     const ledIcon = `<svg viewBox="0 0 64 64" class="walton-control-icon" aria-hidden="true"><path d="M22 39h20M25 46h14M28 53h8"/><path d="M20 28a12 12 0 1 1 24 0c0 5-3 7-6 11H26c-3-4-6-6-6-11z"/><path d="M32 4v6M9 13l5 4M55 13l-5 4"/></svg>`;
+    const clockIcon = `<svg viewBox="0 0 64 64" class="walton-timer-icon" aria-hidden="true"><circle cx="32" cy="32" r="22"/><path d="M32 18v15l10 6"/></svg>`;
     const revIcon = `<svg viewBox="0 0 64 64" class="walton-rev-icon" aria-hidden="true"><path d="M12 27h28c9 0 14 5 14 13s-5 13-14 13H25"/><path d="M25 45l-8 8 8 8"/><path d="M52 37H24c-9 0-14-5-14-13s5-13 14-13h15"/><path d="M39 3l8 8-8 8"/></svg>`;
     return `
       <style>
@@ -40,7 +41,8 @@ const waltonCeilingFanRemote = {
         .walton-center{position:absolute;left:50%;top:50%;width:82px;height:82px;transform:translate(-50%,-50%);border:0;border-radius:50%;background:var(--button);color:var(--button-text);display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 2px 7px var(--shadow),0 8px 18px var(--shadow);transition:.1s}
         .walton-fan-icon{width:42px;height:42px}
         .walton-timers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 10px}
-        .walton-timers button{height:46px;border-radius:24px;font-size:14px;font-weight:750;transition:.1s}
+        .walton-timers button{height:46px;border-radius:24px;font-size:14px;font-weight:750;transition:.1s;display:flex;align-items:center;justify-content:center;gap:6px}
+        .walton-timer-icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;flex:none}
         .walton-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .walton-bottom button{height:50px;border-radius:26px;font-size:15px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:7px;transition:.1s}
         .walton-rev-icon{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -62,9 +64,9 @@ const waltonCeilingFanRemote = {
           </button>
         </div>
         <div class="walton-timers">
-          <button data-action="timer_2h">2H</button>
-          <button data-action="timer_4h">4H</button>
-          <button data-action="timer_8h">8H</button>
+          <button data-action="timer_2h">${clockIcon}<span>2H</span></button>
+          <button data-action="timer_4h">${clockIcon}<span>4H</span></button>
+          <button data-action="timer_8h">${clockIcon}<span>8H</span></button>
         </div>
         <div class="walton-bottom">
           <button data-action="eco">ECO</button>
