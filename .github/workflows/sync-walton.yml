@@ -1,8 +1,9 @@
-name: Sync Walton Remote Bundle
+name: Sync Remote Bundles
 
 on:
   push:
     paths:
+      - 'remote-designs/fan.js'
       - 'remote-designs/walton-ceiling-fan.js'
       - '.github/workflows/sync-walton.yml'
   workflow_dispatch:
@@ -16,29 +17,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Sync Walton source into bundled card
+
+      - name: Sync remote sources into bundled card
         shell: python
         run: |
           from pathlib import Path
 
           main = Path('universal-remote-card.js')
-          source = Path('remote-designs/walton-ceiling-fan.js').read_text()
-          source = source.replace('export const waltonCeilingFanRemote', 'const waltonCeilingFanRemote', 1)
-
-          # Reuse the exact shared Basic Fan button classes so the existing
-          # press feedback is used instead of creating a second animation system.
-          source = source.replace('class="walton-speed', 'class="speed walton-speed')
-          source = source.replace('class="walton-center"', 'class="fan-button walton-center"')
-          source = source.replace('class="walton-pill"', 'class="mode-button walton-pill"')
-          source = source.replace('<button data-action="timer_', '<button class="mode-button" data-action="timer_')
-          source = source.replace('<button data-action="eco">', '<button class="mode-button" data-action="eco">')
-          source = source.replace('<button data-action="reverse">', '<button class="wide-button" data-action="reverse">')
-
           text = main.read_text()
-          start = text.index('// Modern segmented Walton remote layout.')
-          end = text.index('const boxRemote=', start)
-          replacement = '// Modern segmented Walton remote layout.\n' + source.rstrip() + '\n'
-          text = text[:start] + replacement + text[end:]
+
+          fan = Path('remote-designs/fan.js').read_text()
+          fan = fan.replace('export const fanRemote', 'const fanRemote', 1)
+          fan_start = text.index('const fanRemote=')
+          fan_end = text.index('// Modern segmented Walton remote layout.', fan_start)
+          text = text[:fan_start] + fan + '\n' + text[fan_end:]
+
+          walton = Path('remote-designs/walton-ceiling-fan.js').read_text()
+          walton = walton.replace('export const waltonCeilingFanRemote', 'const waltonCeilingFanRemote', 1)
+          walton = walton.replace('class="walton-speed', 'class="speed walton-speed')
+          walton = walton.replace('class="walton-center"', 'class="fan-button walton-center"')
+          walton = walton.replace('class="walton-pill"', 'class="mode-button walton-pill"')
+          walton = walton.replace('<button data-action="timer_', '<button class="mode-button" data-action="timer_')
+          walton = walton.replace('<button data-action="eco">', '<button class="mode-button" data-action="eco">')
+          walton = walton.replace('<button data-action="reverse">', '<button class="wide-button" data-action="reverse">')
+
+          walton_start = text.index('// Modern segmented Walton remote layout.')
+          walton_end = text.index('const boxRemote=', walton_start)
+          text = text[:walton_start] + '// Modern segmented Walton remote layout.\n' + walton.rstrip() + '\n' + text[walton_end:]
           main.write_text(text)
 
       - name: Commit bundled card
@@ -46,5 +51,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add universal-remote-card.js
-          git diff --cached --quiet || git commit -m 'Sync Walton with Basic Fan press feedback'
+          git diff --cached --quiet || git commit -m 'Sync Basic Fan and Walton remote bundles'
           git push
