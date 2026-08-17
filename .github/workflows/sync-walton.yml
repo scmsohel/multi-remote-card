@@ -30,7 +30,6 @@ jobs:
           source = source.replace('class="walton-speed', 'class="speed walton-speed')
           source = source.replace('class="walton-center"', 'class="fan-button walton-center"')
           source = source.replace('class="walton-pill"', 'class="mode-button walton-pill"')
-          source = source.replace('class="walton-timers">', 'class="walton-timers">')
           source = source.replace('<button data-action="timer_', '<button class="mode-button" data-action="timer_')
           source = source.replace('<button data-action="eco">', '<button class="mode-button" data-action="eco">')
           source = source.replace('<button data-action="reverse">', '<button class="wide-button" data-action="reverse">')
@@ -45,7 +44,7 @@ jobs:
       - name: Commit bundled card
         run: |
           git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot].users.noreply.github.com'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add universal-remote-card.js
           git diff --cached --quiet || git commit -m 'Sync Walton with Basic Fan press feedback'
           git push
