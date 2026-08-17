@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'remote-designs/walton-ceiling-fan.js'
+      - '.github/workflows/sync-walton.yml'
   workflow_dispatch:
 
 permissions:
