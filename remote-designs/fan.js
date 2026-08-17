@@ -22,12 +22,12 @@ export const fanRemote = {
       <div class="design-title">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
       <div class="fan-area">
         ${[1,2,3,4,5,6].map(n => `<button class="speed s${n} ${speed === n ? 'active' : ''}" data-action="speed_${n}">${n}</button>`).join('')}
-        <button class="fan-button ${on ? 'on' : ''}" data-action="fan">
+        <button class="fan-button press-feedback ${on ? 'on' : ''}" data-action="fan">
           <svg class="fan-icon" viewBox="0 0 64 64" aria-hidden="true">
             <g fill="${on ? 'var(--fan-on-icon)' : 'var(--fan-icon)'}">
               <path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/>
               <path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/>
-              <path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14 2-21-1-2 3-3 4-1z"/>
+              <path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14-2-21-1-2 3-3 4-1z"/>
               <path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/>
               <circle cx="32" cy="32" r="6" fill="${on ? 'var(--fan-on-center)' : 'var(--fan-center)'}"/>
             </g>
