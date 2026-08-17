@@ -2,6 +2,8 @@
 
 A modern, customizable **universal remote card for Home Assistant**.
 
+> **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. The card is **not limited to specific entity domains** such as `fan.*` or `light.*`, making it suitable for ESPHome devices, switches, buttons, scripts, helpers, and custom Home Assistant setups.
+
 The project is designed to support multiple remote/device layouts from one card. The current design is a fan remote, with additional remote designs being added over time.
 
 ## Current status
@@ -26,6 +28,12 @@ The architecture is being built so different physical remotes can have different
 - 1H / 4H / 8H timers
 - Press feedback / indicator blink
 - Responsive mobile and desktop layout
+
+### Entity-based controls
+
+The card uses an **entity-based control model**. Each button/control can be mapped to a Home Assistant entity or supported action instead of being tied to one specific device type.
+
+This means the same remote design can work with different hardware and integrations. For example, a fan button can be connected to a native Home Assistant fan, an ESPHome switch/button, a script, or another entity used by the user's setup.
 
 ### Remote designs
 
