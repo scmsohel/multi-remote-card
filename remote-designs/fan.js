@@ -1,3 +1,4 @@
+// Basic Ceiling Fan remote — shared press feedback on all non-speed controls.
 export const fanRemote = {
   id: 'fan',
   label: 'Fan',
