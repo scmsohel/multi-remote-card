@@ -4,6 +4,8 @@ A modern, customizable **universal remote card for Home Assistant**.
 
 > **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. The card is **not limited to specific entity domains** such as `fan.*` or `light.*`, making it suitable for ESPHome devices, switches, buttons, scripts, helpers, and custom Home Assistant setups.
 
+![Universal Remote Card preview](assets/universal-remote-card-preview.svg)
+
 The project is designed to support multiple remote/device layouts from one card. The current design is a fan remote, with additional remote designs being added over time.
 
 ## Current status
@@ -212,4 +214,4 @@ rooms:
 
 ## License
 
-License will be selected before the first stable release.
+This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
