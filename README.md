@@ -1,33 +1,40 @@
 # Universal Remote Card
 
-A modern and customizable universal remote card for Home Assistant.
+A modern, customizable universal remote card for Home Assistant.
 
-## Status
+## Current status
 
 🚧 **Early development / prototype**
 
-The first interactive UI prototype is now included in the repository. The design is based on the fan remote interface we are developing, with support for multiple rooms, fan speeds, power, reverse, light controls, and timers.
+The repository currently contains the first working interactive card prototype. The visual direction is based on the fan remote interface we are recreating, while the configuration is designed to grow into a reusable universal remote.
 
-## Planned features
+## Current UI
 
-- Fan speed 1–6
+- Bedroom / Lounge room selector
 - Fan power
+- Fan speed 1–6
 - Reverse
 - Light power
 - Color temperature controls
 - Brightness controls
 - 1H / 4H / 8H timers
-- Multiple rooms/devices
-- Custom Home Assistant actions
 - Responsive mobile/tablet layout
-- HACS support
-- Additional remote/device types
+- Custom Home Assistant script/action support
 
-## Installation
+## Installation for testing
 
-This project is currently under development and is not yet a stable HACS release.
+The card is currently installed manually as a Lovelace JavaScript Module.
 
-For development, add the JavaScript file from this repository as a Home Assistant Lovelace JavaScript Module resource.
+1. Download or copy `universal-remote-card.js` from this repository.
+2. Put it in `/config/www/` on Home Assistant, or serve the file from a web-accessible location.
+3. Add the following resource in **Settings → Dashboards → Resources**:
+
+```yaml
+url: /local/universal-remote-card.js
+type: module
+```
+
+4. Add the card to a dashboard using `custom:universal-remote-card`.
 
 ## Example configuration
 
@@ -60,6 +67,17 @@ actions:
   timer_4h: script.fan_timer_4h
   timer_8h: script.fan_timer_8h
 ```
+
+## Roadmap
+
+- Match the reference interface more closely
+- Replace placeholder symbols with consistent vector icons
+- Improve fan speed state detection for different Home Assistant fan integrations
+- Add configurable themes and dimensions
+- Add richer action/service configuration
+- Add proper HACS installation metadata and release workflow
+- Add support for additional remote/device layouts
+- Connect the card to RF/IR/ESPHome-based remotes
 
 ## License
 
