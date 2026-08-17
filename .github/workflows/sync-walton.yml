@@ -27,7 +27,7 @@ jobs:
 
           main_path = Path('universal-remote-card.js')
           main = main_path.read_text()
-          pattern = r'const waltonCeilingFanRemote=.*?;\s*(?=const boxRemote=)'
+          pattern = r'(?:export\s+)?const\s+waltonCeilingFanRemote=.*?;\s*(?=const boxRemote=)'
           updated, count = re.subn(pattern, source + '\n', main, count=1, flags=re.S)
           if count != 1:
               raise SystemExit('Could not locate bundled Walton design in universal-remote-card.js')
