@@ -1,6 +1,7 @@
 /* Universal Remote Card - self-contained HACS build. Remote designs remain in remote-designs/ as source files; this distributed entry file is self-contained so HACS does not need to serve submodule URLs. */
 
 const THEME_OPTIONS=[{value:'auto',label:'Auto'},{value:'light',label:'Light'},{value:'dark',label:'Dark'}];
+// Basic Ceiling Fan remote — shared press feedback on all non-speed controls.
 const fanRemote = {
   id: 'fan',
   label: 'Fan',
