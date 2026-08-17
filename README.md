@@ -1,25 +1,95 @@
 # Universal Remote Card
 
-A modern, customizable universal remote card for Home Assistant.
+A modern, customizable **universal remote card for Home Assistant**.
+
+The project is designed to support multiple remote/device layouts from one card. The current design is a fan remote, with additional remote designs being added over time.
 
 ## Current status
 
 🚧 **Early development / prototype**
 
-The repository currently contains the first working interactive card prototype. The visual direction is based on the fan remote interface we are recreating, while the configuration is designed to grow into a reusable universal remote.
+The card currently includes a polished fan-remote layout, Home Assistant Visual Editor support, configurable entities/actions, and optional multiple-remote support.
 
-## Current UI
+The architecture is being built so different physical remotes can have different visual layouts—for example a ceiling-fan remote and a sound-box remote can live in the same card.
 
-- Bedroom / Lounge room selector
-- Fan power
+## Current features
+
+### Fan remote design
+
+- Modern circular fan control
 - Fan speed 1–6
+- Fan power button with fan icon
 - Reverse
-- Light power
-- Color temperature controls
-- Brightness controls
+- ECO
+- Light
+- MAX
 - 1H / 4H / 8H timers
-- Responsive mobile/tablet layout
-- Custom Home Assistant script/action support
+- Press feedback / indicator blink
+- Responsive mobile and desktop layout
+
+### Remote designs
+
+The Visual Editor includes a **Remote Design** selector.
+
+Currently available:
+
+- **Fan** — current ceiling-fan remote design
+- **Box** — reserved for the Fenda sound-box remote design
+
+More layouts can be added without replacing the existing designs.
+
+### Single / Multiple Remote
+
+**Multiple Remote OFF**
+
+The card works as a single remote and does not show remote tabs.
+
+**Multiple Remote ON**
+
+The card can show two independent remotes, each with its own:
+
+- Remote name
+- Remote design
+- Device/fan name
+- Fan entity
+- Light entity
+- Speed 1–6 entities/actions
+- Reverse
+- ECO
+- MAX
+- Timer 1H / 4H / 8H
+
+This allows combinations such as:
+
+- Remote 1 → Fan
+- Remote 2 → Box
+
+### Visual Editor
+
+The card is configurable from Home Assistant's Visual Editor.
+
+Entity selectors intentionally allow **all Home Assistant entities**, rather than restricting Fan/Light fields to only `fan.*` or `light.*`. This makes the card suitable for ESPHome devices, switches, buttons, scripts, helpers, and other custom setups.
+
+The editor uses clear labels such as:
+
+- Remote 1 Fan
+- Remote 1 Light
+- Remote 1 Speed 1
+- Remote 1 Speed 2
+- Remote 2 Fan
+- Remote 2 Light
+- Remote 2 Speed 1
+
+instead of short internal names such as `r1_fan` or `r2_light`.
+
+## Default device names
+
+The current design uses these default names:
+
+- Fan → **Basic Celling Fan**
+- Box → **Fenda Sound Box**
+
+Both names can be customized from the Visual Editor.
 
 ## Installation
 
@@ -39,7 +109,7 @@ This repository is installed through HACS as a **Dashboard** custom repository. 
 7. Find **Universal Remote Card** in HACS and click **Download**.
 8. HACS registers the dashboard resource automatically.
 9. Hard-refresh the browser if the card does not appear immediately.
-10. Add the card to a dashboard using the YAML below.
+10. Add the card to a dashboard.
 
 > No manual `/config/www` copy or manual resource entry is required when installing through HACS.
 
@@ -58,47 +128,78 @@ type: module
 
 3. Add the card to a dashboard using `custom:universal-remote-card`.
 
-## Example configuration
+## Configuration
+
+The preferred method is the **Visual Editor**.
+
+A minimal YAML configuration can be as simple as:
 
 ```yaml
 type: custom:universal-remote-card
-
+multiple_remotes: false
 rooms:
-  bedroom:
-    name: BEDROOM
+  remote1:
+    design: fan
+    fan_name: Basic Celling Fan
     fan: fan.bedroom_fan
     light: light.bedroom_light
-  lounge:
-    name: LOUNGE
-    fan: fan.lounge_fan
-    light: light.lounge_light
+    actions:
+      speed_1: script.fan_speed_1
+      speed_2: script.fan_speed_2
+      speed_3: script.fan_speed_3
+      speed_4: script.fan_speed_4
+      speed_5: script.fan_speed_5
+      speed_6: script.fan_speed_6
+      reverse: script.fan_reverse
+      eco: script.fan_eco
+      max: script.fan_max
+      timer_1h: script.fan_timer_1h
+      timer_4h: script.fan_timer_4h
+      timer_8h: script.fan_timer_8h
+```
 
-actions:
-  speed_1: script.fan_speed_1
-  speed_2: script.fan_speed_2
-  speed_3: script.fan_speed_3
-  speed_4: script.fan_speed_4
-  speed_5: script.fan_speed_5
-  speed_6: script.fan_speed_6
-  reverse: script.fan_reverse
-  color_temp_minus: script.light_temp_down
-  color_temp_plus: script.light_temp_up
-  brightness_minus: script.light_brightness_down
-  brightness_plus: script.light_brightness_up
-  timer_1h: script.fan_timer_1h
-  timer_4h: script.fan_timer_4h
-  timer_8h: script.fan_timer_8h
+### Multiple remote example
+
+```yaml
+type: custom:universal-remote-card
+multiple_remotes: true
+rooms:
+  remote1:
+    name: BEDROOM
+    design: fan
+    fan_name: Basic Celling Fan
+    fan: fan.bedroom_fan
+    light: light.bedroom_light
+    actions:
+      speed_1: script.fan_speed_1
+      speed_2: script.fan_speed_2
+      speed_3: script.fan_speed_3
+      speed_4: script.fan_speed_4
+      speed_5: script.fan_speed_5
+      speed_6: script.fan_speed_6
+      reverse: script.fan_reverse
+      eco: script.fan_eco
+      max: script.fan_max
+      timer_1h: script.fan_timer_1h
+      timer_4h: script.fan_timer_4h
+      timer_8h: script.fan_timer_8h
+
+  remote2:
+    name: LOUNGE
+    design: box
+    fan_name: Fenda Sound Box
 ```
 
 ## Roadmap
 
-- Match the reference interface more closely
-- Replace placeholder symbols with consistent vector icons
-- Improve fan speed state detection for different Home Assistant fan integrations
-- Add configurable themes and dimensions
-- Add richer action/service configuration
+- Complete the Fenda sound-box remote design
+- Add more remote/device layouts (AC, TV, light, curtain, media, etc.)
+- Expand Visual Editor controls
+- Support richer tap / double-tap / hold actions
+- Improve state-aware buttons and animations
+- Add configurable themes, dimensions, icons, and layouts
+- Add richer Home Assistant service/action configuration
 - Add proper HACS releases and versioning
-- Add support for additional remote/device layouts
 - Connect the card to RF/IR/ESPHome-based remotes
 
 ## License
