@@ -15,12 +15,15 @@ export const waltonCeilingFanRemote = {
   render(ctx) {
     const power = ctx.state(ctx.room.actions?.power);
     const on = power?.state === 'on';
+    const powerIcon = `<svg viewBox="0 0 64 64" class="walton-control-icon" aria-hidden="true"><path d="M32 8v23"/><path d="M18 14a25 25 0 1 0 28 0"/></svg>`;
+    const ledIcon = `<svg viewBox="0 0 64 64" class="walton-control-icon" aria-hidden="true"><path d="M22 39h20M24 46h16M27 53h10"/><path d="M20 28a12 12 0 1 1 24 0c0 5-3 7-6 11H26c-3-4-6-6-6-11z"/><path d="M32 4v6M9 13l5 4M55 13l-5 4"/></svg>`;
+    const revIcon = `<svg viewBox="0 0 64 64" class="walton-rev-icon" aria-hidden="true"><path d="M12 27h28c9 0 14 5 14 13s-5 13-14 13H25"/><path d="M25 45l-8 8 8 8"/><path d="M52 37H24c-9 0-14-5-14-13s5-13 14-13h15"/><path d="M39 3l8 8-8 8"/></svg>`;
     return `
       <div class="design-title">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
       <div class="walton-body">
         <div class="walton-top">
-          <button class="walton-pill" data-action="power"><span class="power-icon">⏻</span><span>POWER</span></button>
-          <button class="walton-pill" data-action="led"><span class="led-icon">☼</span><span>LED</span></button>
+          <button class="walton-pill" data-action="power">${powerIcon}<span>POWER</span></button>
+          <button class="walton-pill" data-action="led">${ledIcon}<span>LED</span></button>
         </div>
         <div class="walton-circle ${on ? 'on' : ''}">
           <button class="walton-speed w1" data-action="speed_1">1</button>
@@ -40,7 +43,7 @@ export const waltonCeilingFanRemote = {
         </div>
         <div class="walton-bottom">
           <button data-action="eco">ECO</button>
-          <button data-action="reverse">REV</button>
+          <button data-action="reverse">${revIcon}<span>REV</span></button>
         </div>
       </div>`;
   },
