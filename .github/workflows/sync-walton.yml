@@ -29,16 +29,16 @@ jobs:
 
           main_path = Path('universal-remote-card.js')
           main = main_path.read_text()
-          pattern = r'(?s)(?:export\s+)?const\s+waltonCeilingFanRemote=.*?(?=class\s+UniversalRemoteCard)'
-          replacement = source + '\n' + box
-          updated, count = re.subn(pattern, replacement, main, count=1)
-          if count != 1:
-              raise SystemExit('Could not locate Walton section before UniversalRemoteCard')
+          start = main.find('waltonCeilingFanRemote')
+          start = main.rfind('const ', 0, start)
+          end = main.find('class UniversalRemoteCard', start)
+          if start < 0 or end < 0:
+              raise SystemExit(f'Could not locate Walton section: start={start}, end={end}, size={len(main)}')
+          updated = main[:start] + source + '\n' + box + '\n' + main[end:]
 
           css = r'''\n/* Walton modern segmented remote */\n.walton-modern .walton-circle{position:relative;width:min(430px,100%);aspect-ratio:1;margin:18px auto 24px;border-radius:50%;background:radial-gradient(circle,var(--c1),var(--c2));border:1px solid var(--border);box-shadow:inset 0 0 20px var(--border),0 15px 30px var(--shadow)}\n.walton-modern .walton-speed{position:absolute;width:31%;height:31%;border:0;border-radius:24px;background:var(--button);color:var(--button-text);font-size:25px;font-weight:600;box-shadow:0 8px 18px var(--shadow);cursor:pointer;transition:.12s;z-index:2}\n.walton-modern .walton-speed:active,.walton-modern .walton-center:active,.walton-modern .walton-timers button:active,.walton-modern .walton-bottom button:active,.walton-modern .walton-pill:active{transform:scale(.96)}\n.walton-modern .w3{left:34.5%;top:4%}.walton-modern .w2{left:8%;top:24%}.walton-modern .w4{right:8%;top:24%}.walton-modern .w1{left:8%;bottom:23%}.walton-modern .w5{right:8%;bottom:23%}.walton-modern .w6{left:34.5%;bottom:4%}\n.walton-modern .walton-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:31%;height:31%;border:0;border-radius:50%;background:var(--button);color:var(--button-text);display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 2px 7px var(--shadow),0 8px 18px var(--shadow);z-index:3}\n.walton-modern .walton-fan-icon{width:52%;height:52%}.walton-modern .walton-timers,.walton-modern .walton-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.walton-modern .walton-bottom{grid-template-columns:1fr 1fr;margin-top:14px}.walton-modern .walton-timers button,.walton-modern .walton-bottom button{min-height:58px;border:0;border-radius:32px;background:var(--button);color:var(--button-text);box-shadow:0 8px 18px var(--shadow);font-weight:700;font-size:17px;cursor:pointer}.walton-modern .walton-top{display:grid;grid-template-columns:1fr 1fr;gap:14px}.walton-modern .walton-pill{min-height:58px;border:0;border-radius:32px;background:var(--button);color:var(--button-text);box-shadow:0 8px 18px var(--shadow);font-weight:700;font-size:16px;cursor:pointer}.walton-modern .walton-control-icon,.walton-modern .walton-rev-icon{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}\n'''
           if '/* Walton modern segmented remote */' not in updated:
               updated=updated.replace('</style>', css + '</style>', 1)
-
           main_path.write_text(updated)
 
       - name: Commit bundled card
