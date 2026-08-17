@@ -1,4 +1,4 @@
-// Modern segmented Walton remote layout.
+// Modern segmented Walton remote layout v2.
 export const waltonCeilingFanRemote = {
   id: 'walton-ceiling-fan',
   label: 'Walton Ceiling Fan',
