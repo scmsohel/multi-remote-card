@@ -6,6 +6,7 @@ export const waltonCeilingFanRemote = {
     { key: 'power', label: 'Power', type: 'entity' },
     { key: 'led', label: 'LED', type: 'entity' },
     ...Array.from({ length: 6 }, (_, i) => ({ key: `speed_${i + 1}`, label: `Speed ${i + 1}`, type: 'entity' })),
+    { key: 'max', label: 'Max Speed', type: 'entity' },
     { key: 'timer_2h', label: 'Timer 2H', type: 'entity' },
     { key: 'timer_4h', label: 'Timer 4H', type: 'entity' },
     { key: 'timer_8h', label: 'Timer 8H', type: 'entity' },
@@ -32,9 +33,9 @@ export const waltonCeilingFanRemote = {
           <button class="walton-speed w4" data-action="speed_4">4</button>
           <button class="walton-speed w5" data-action="speed_5">5</button>
           <button class="walton-speed w6" data-action="speed_6">6</button>
-          <div class="walton-center">
+          <button class="walton-center" data-action="max" aria-label="Max Speed">
             <svg class="walton-fan-icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="currentColor"><path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/><path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/><path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14 2-21-1-2 3-3 4-1z"/><path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/><circle cx="32" cy="32" r="6" fill="currentColor"/></g></svg>
-          </div>
+          </button>
         </div>
         <div class="walton-timers">
           <button data-action="timer_2h">2H</button>
