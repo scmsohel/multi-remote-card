@@ -22,7 +22,7 @@ jobs:
           import re
 
           source = Path('remote-designs/walton-ceiling-fan.js').read_text()
-          source = re.sub(r'^\s*export\s+const\s+waltonCeilingFanRemote\s*=\s*', 'const waltonCeilingFanRemote=', source.strip())
+          source = re.sub(r'(?s)^.*?export\s+const\s+waltonCeilingFanRemote\s*=\s*', 'const waltonCeilingFanRemote=', source.strip(), count=1)
           source = source.rstrip().rstrip(';') + ';'
 
           main_path = Path('universal-remote-card.js')
@@ -46,5 +46,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add universal-remote-card.js
-          git diff --cached --quiet || git commit -m 'Bundle modern Walton remote design'
+          git diff --cached --quiet || git commit -m 'Fix bundled Walton remote design'
           git push
