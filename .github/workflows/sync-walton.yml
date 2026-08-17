@@ -22,15 +22,19 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
 
           main = Path('universal-remote-card.js')
           text = main.read_text()
 
           fan = Path('remote-designs/fan.js').read_text()
           fan = fan.replace('export const fanRemote', 'const fanRemote', 1)
-          fan_start = text.index('const fanRemote=')
+          fan_match = re.search(r'(?m)^const\s+fanRemote\s*=', text)
+          if not fan_match:
+              raise RuntimeError('Could not find bundled Basic Fan definition')
+          fan_start = fan_match.start()
           fan_end = text.index('// Modern segmented Walton remote layout.', fan_start)
-          text = text[:fan_start] + fan + '\n' + text[fan_end:]
+          text = text[:fan_start] + fan.rstrip() + '\n' + text[fan_end:]
 
           walton = Path('remote-designs/walton-ceiling-fan.js').read_text()
           walton = walton.replace('export const waltonCeilingFanRemote', 'const waltonCeilingFanRemote', 1)
