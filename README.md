@@ -12,9 +12,9 @@ The project is designed to support multiple remote/device layouts from one card.
 
 🚧 **Early development / prototype**
 
-The card currently includes a polished fan-remote layout, Home Assistant Visual Editor support, configurable entities/actions, and optional multiple-remote support.
+The current **Basic Celling Fan** remote design is finalized as the stable visual baseline for the project. Future remote designs will be added alongside it without replacing the existing fan layout.
 
-The architecture is being built so different physical remotes can have different visual layouts—for example a ceiling-fan remote and a sound-box remote can live in the same card.
+The card currently includes a polished fan-remote layout, Home Assistant Visual Editor support, configurable entities/actions, optional multiple-remote support, and Auto/Light/Dark theme selection.
 
 ## Current features
 
@@ -30,6 +30,7 @@ The architecture is being built so different physical remotes can have different
 - 1H / 4H / 8H timers
 - Press feedback / indicator blink
 - Responsive mobile and desktop layout
+- No unnecessary status/ready section in the remote UI
 
 ### Entity-based controls
 
@@ -37,13 +38,23 @@ The card uses an **entity-based control model**. Each button/control can be mapp
 
 This means the same remote design can work with different hardware and integrations. For example, a fan button can be connected to a native Home Assistant fan, an ESPHome switch/button, a script, or another entity used by the user's setup.
 
+### Themes
+
+The Visual Editor provides a **Theme** selector:
+
+- **Auto** — follows the Home Assistant dark/light mode
+- **Light** — forces the light design
+- **Dark** — forces the dark design
+
+Auto is the default.
+
 ### Remote designs
 
 The Visual Editor includes a **Remote Design** selector.
 
 Currently available:
 
-- **Fan** — current ceiling-fan remote design
+- **Fan** — current Basic Celling Fan remote design
 - **Box** — reserved for the Fenda sound-box remote design
 
 More layouts can be added without replacing the existing designs.
@@ -203,11 +214,12 @@ rooms:
 ## Roadmap
 
 - Complete the Fenda sound-box remote design
+- Add the Walton Ceiling Fan remote design as a separate layout
 - Add more remote/device layouts (AC, TV, light, curtain, media, etc.)
 - Expand Visual Editor controls
 - Support richer tap / double-tap / hold actions
 - Improve state-aware buttons and animations
-- Add configurable themes, dimensions, icons, and layouts
+- Add configurable dimensions, icons, and layouts
 - Add richer Home Assistant service/action configuration
 - Add proper HACS releases and versioning
 - Connect the card to RF/IR/ESPHome-based remotes
