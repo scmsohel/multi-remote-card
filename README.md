@@ -4,7 +4,7 @@ A modern, customizable **universal remote card for Home Assistant**.
 
 > **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. It is not limited to `fan.*` or `light.*`, making it suitable for ESPHome switches/buttons, scripts, helpers, and custom setups.
 
-![Universal Remote Card preview](https://raw.githubusercontent.com/scmsohel/universal-remote-card/main/assets/universal-remote-card-preview.svg)
+![Universal Remote Card preview](https://github.com/scmsohel/universal-remote-card/blob/main/assets/universal-remote-card-preview.svg?raw=true)
 
 ## Current status
 
