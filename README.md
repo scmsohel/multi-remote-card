@@ -1,16 +1,16 @@
-# Universal Remote Card
+# Multi-Remote Card
 
-A modern, customizable **universal remote card for Home Assistant**.
+A modern, customizable **multi-remote card for Home Assistant**.
 
 > **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. It is not limited to `fan.*` or `light.*`, making it suitable for ESPHome switches/buttons, scripts, helpers, and custom setups.
 
-![Universal Remote Card preview](https://github.com/scmsohel/universal-remote-card/blob/main/assets/universal-remote-card-preview.svg?raw=true)
+![Multi-Remote Card preview](https://github.com/scmsohel/multi-remote-card/blob/main/assets/universal-remote-card-preview.svg?raw=true)
 
 ## Current status
 
 🚧 **Early development / prototype**
 
-The project now uses a **modular remote-design architecture**. Each physical remote has its own file, while the main card handles themes, entities, multiple remotes, and the Visual Editor.
+The project uses a **modular remote-design architecture**. Each physical remote has its own file, while the main card handles themes, entities, multiple remotes, and the Visual Editor.
 
 ## Remote designs
 
@@ -99,17 +99,17 @@ The available controls are generated from the selected remote-design module.
 ### HACS
 
 1. Open HACS → **Custom repositories**.
-2. Add `https://github.com/scmsohel/universal-remote-card`.
+2. Add `https://github.com/scmsohel/multi-remote-card`.
 3. Select **Dashboard** (called **Lovelace/Plugin** in some HACS versions).
-4. Add/download **Universal Remote Card**.
+4. Add/download **Multi-Remote Card**.
 5. Refresh the browser if necessary.
 
 ### Manual
 
-Copy `universal-remote-card.js` **and the complete `remote-designs/` folder** to `/config/www/`, then add:
+Copy `multi-remote-card.js` **and the complete `remote-designs/` folder** to `/config/www/`, then add:
 
 ```yaml
-url: /local/universal-remote-card.js
+url: /local/multi-remote-card.js
 type: module
 ```
 
@@ -118,7 +118,7 @@ type: module
 Example Walton remote:
 
 ```yaml
-type: custom:universal-remote-card
+type: custom:multi-remote-card
 multiple_remotes: false
 theme: auto
 rooms:
@@ -144,7 +144,7 @@ rooms:
 ## Project structure
 
 ```text
-universal-remote-card.js
+multi-remote-card.js
 remote-designs/
 ├── fan.js
 ├── walton-ceiling-fan.js
