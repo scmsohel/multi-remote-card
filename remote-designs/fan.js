@@ -48,3 +48,4 @@ export const fanRemote = {
       <div class="design-title design-title-bottom">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>`;
   },
 };
+
