@@ -29,19 +29,15 @@ jobs:
           curl -fsSL "$BASE/remote-designs/box.js" -o remote-designs/box.js
           curl -fsSL "$BASE/remote-designs/fan.js" -o remote-designs/fan.js
           curl -fsSL "$BASE/remote-designs/walton-ceiling-fan.js" -o remote-designs/walton-ceiling-fan.js
-          curl -fsSL "$BASE/assets/multi-remote-card-preview.svg" -o assets/multi-remote-card-preview.svg
-          curl -fsSL "$BASE/assets/universal-remote-card-preview.svg" -o assets/universal-remote-card-preview.svg
 
       - name: Commit stable snapshot
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md hacs.json multi-remote-card.js remote-designs assets/multi-remote-card-preview.svg assets/universal-remote-card-preview.svg
+          git add README.md hacs.json multi-remote-card.js remote-designs
           if git diff --cached --quiet; then
             echo 'No changes to sync.'
             exit 0
           fi
           git commit -m 'Sync latest DEV snapshot to stable'
           git push origin main
-
-# Trigger snapshot sync after latest tested DEV fixes.
