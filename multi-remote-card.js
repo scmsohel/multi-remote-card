@@ -1,4 +1,4 @@
-/* Universal Remote Card - self-contained HACS build. Remote designs remain in remote-designs/ as source files; this distributed entry file is self-contained so HACS does not need to serve submodule URLs. */
+/* Multi-Remote Card - self-contained HACS build. Remote designs remain in remote-designs/ as source files; this distributed entry file is self-contained so HACS does not need to serve submodule URLs. */
 
 const THEME_OPTIONS=[{value:'auto',label:'Auto'},{value:'light',label:'Light'},{value:'dark',label:'Dark'}];
 // Basic Ceiling Fan remote — shared press feedback on all non-speed controls.
@@ -134,7 +134,7 @@ const waltonCeilingFanRemote = {
 const boxRemote={id:'box',label:'Box',defaultName:'Fenda Sound Box',controls:[],render(ctx){return `<div class="coming"><div class="coming-icon">▣</div><div class="coming-title">${ctx.escape(ctx.room.device_name||this.defaultName)}</div><div class="coming-text">Box remote design is ready to be configured.</div></div>`;}};
 const REMOTE_DESIGNS=[fanRemote,waltonCeilingFanRemote,boxRemote],DESIGN_MAP=Object.fromEntries(REMOTE_DESIGNS.map(d=>[d.id,d]));
 
-class UniversalRemoteCard extends HTMLElement{
+class MultiRemoteCard extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this._hass=null;this._config={};this._roomId='remote1';}
  setConfig(c){this._config=c||{};this._roomId='remote1';this.render();} set hass(v){this._hass=v;this.render();} getCardSize(){return 12;}
  _multiple(){return this._config.multiple_remotes===true;} _theme(){const m=this._config.theme||'auto';if(m==='dark')return'dark';if(m==='light')return'light';return this._hass?.themes?.darkMode?'dark':'light';}
@@ -147,7 +147,7 @@ class UniversalRemoteCard extends HTMLElement{
  render(){const rooms=this._rooms(),room=rooms[this._roomId]||rooms.remote1,design=DESIGN_MAP[room.design]||fanRemote;this.shadowRoot.innerHTML=this._style()+`<div class="card theme-${this._theme()}"><div class="dot"></div><div class="rooms ${this._multiple()?'':'hidden'}">${Object.entries(rooms).map(([id,r])=>`<button class="room ${id===this._roomId?'active':''}" data-room="${id}">${this._escape(r.name)}</button>`).join('')}</div>${design.render({room,state:id=>this._state(id),escape:v=>this._escape(v)})}</div>`;this.shadowRoot.querySelectorAll('.room').forEach(b=>b.addEventListener('click',()=>{this._roomId=b.dataset.room;this.render()}));this.shadowRoot.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>this._run(this._action(b.dataset.action))));}
 }
 
-class UniversalRemoteCardEditor extends HTMLElement{
+class MultiRemoteCardEditor extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this._config={};this._hass=null;this._multiple=false;this._form=null;this._switch=null;}
  setConfig(c){this._config=c||{};this._multiple=this._config.multiple_remotes===true;this._build();} set hass(v){this._hass=v;if(this._form)this._form.hass=v;else this._build();}
  _old(n){const r=this._config.rooms||{};return r[`remote${n}`]||r[n===1?'bedroom':'lounge']||{};} _design(n){return this._old(n).design||(n===2?'box':'fan');}
@@ -159,8 +159,8 @@ class UniversalRemoteCardEditor extends HTMLElement{
  _emit(v){this.dispatchEvent(new CustomEvent('config-changed',{detail:{config:this._collect(v)},bubbles:true,composed:true}));}
 }
 
-if(!customElements.get('universal-remote-card'))customElements.define('universal-remote-card',UniversalRemoteCard);
-if(!customElements.get('universal-remote-card-editor'))customElements.define('universal-remote-card-editor',UniversalRemoteCardEditor);
-UniversalRemoteCard.getConfigElement=()=>document.createElement('universal-remote-card-editor');
-UniversalRemoteCard.getStubConfig=()=>({multiple_remotes:false,theme:'auto',rooms:{remote1:{design:'fan',device_name:'Basic Celling Fan'}}});
-window.customCards=window.customCards||[];if(!window.customCards.some(c=>c.type==='universal-remote-card'))window.customCards.push({type:'universal-remote-card',name:'Universal Remote Card',description:'Modern universal remote card',preview:true});
+if(!customElements.get('multi-remote-card'))customElements.define('multi-remote-card',MultiRemoteCard);
+if(!customElements.get('multi-remote-card-editor'))customElements.define('multi-remote-card-editor',MultiRemoteCardEditor);
+MultiRemoteCard.getConfigElement=()=>document.createElement('multi-remote-card-editor');
+MultiRemoteCard.getStubConfig=()=>({multiple_remotes:false,theme:'auto',rooms:{remote1:{design:'fan',device_name:'Basic Celling Fan'}}});
+window.customCards=window.customCards||[];if(!window.customCards.some(c=>c.type==='multi-remote-card'))window.customCards.push({type:'multi-remote-card',name:'Multi-Remote Card',description:'Modern universal remote card',preview:true});

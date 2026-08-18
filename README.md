@@ -4,7 +4,7 @@ A modern, customizable **multi-remote card for Home Assistant**.
 
 > **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. It is not limited to `fan.*` or `light.*`, making it suitable for ESPHome switches/buttons, scripts, helpers, and custom setups.
 
-![Multi-Remote Card preview](https://github.com/scmsohel/multi-remote-card/blob/main/assets/universal-remote-card-preview.svg?raw=true)
+![Multi-Remote Card preview](https://github.com/scmsohel/multi-remote-card/blob/main/assets/multi-remote-card-preview.svg?raw=true)
 
 ## Current status
 
