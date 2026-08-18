@@ -43,3 +43,5 @@ jobs:
           fi
           git commit -m 'Sync latest DEV snapshot to stable'
           git push origin main
+
+# Trigger snapshot sync after latest tested DEV fixes.
