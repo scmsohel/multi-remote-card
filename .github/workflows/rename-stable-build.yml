@@ -1,0 +1,45 @@
+name: Migrate stable build branding
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Rename stable build and branding
+        shell: bash
+        run: |
+          set -e
+          if [ -f universal-remote-card.js ]; then
+            mv universal-remote-card.js multi-remote-card.js
+          fi
+          if [ -f multi-remote-card.js ]; then
+            perl -0pi -e 's/Universal Remote Card/Multi-Remote Card/g; s/universal-remote-card/multi-remote-card/g; s/UniversalRemoteCard/MultiRemoteCard/g' multi-remote-card.js
+          fi
+          if [ -f hacs.json ]; then
+            perl -0pi -e 's/Universal Remote Card/Multi-Remote Card/g; s/universal-remote-card\.js/multi-remote-card.js/g' hacs.json
+          fi
+          if [ -f README.md ]; then
+            perl -0pi -e 's/Universal Remote Card/Multi-Remote Card/g; s/universal-remote-card/multi-remote-card/g; s/universal-remote-card\.js/multi-remote-card.js/g; s/custom:universal-remote-card/custom:multi-remote-card/g' README.md
+          fi
+
+      - name: Commit migrated build
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No migration changes needed."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Migrate stable build to Multi-Remote Card'
+          git push
