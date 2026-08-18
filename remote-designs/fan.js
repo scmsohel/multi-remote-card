@@ -19,16 +19,20 @@ export const fanRemote = {
     const pct = Number(fan?.attributes?.percentage || 0);
     const speed = pct ? Math.max(1, Math.min(6, Math.round(pct / 100 * 6))) : 0;
     return `
+      <style>
+        .fan-button{transition:box-shadow .1s,filter .1s!important}
+        .fan-button:active{box-shadow:0 3px 8px var(--shadow),inset 0 2px 5px var(--shadow)!important;filter:brightness(.96)!important}
+      </style>
       <div class="fan-area">
         ${[1,2,3,4,5,6].map(n => `<button class="speed s${n} ${speed === n ? 'active' : ''}" data-action="speed_${n}">${n}</button>`).join('')}
         <button class="fan-button ${on ? 'on' : ''}" data-action="fan">
-          <svg class="fan-icon" viewBox="0 0 64 64" aria-hidden="true">
-            <g fill="var(--button-text)">
+          <svg class="fan-icon" style="color:var(--text)!important;fill:var(--text)!important;opacity:1!important" viewBox="0 0 64 64" aria-hidden="true">
+            <g fill="currentColor">
               <path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/>
               <path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/>
               <path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14-2-21-1-2 3-3 4-1z"/>
               <path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/>
-              <circle cx="32" cy="32" r="6" fill="var(--button-text)"/>
+              <circle cx="32" cy="32" r="6" fill="currentColor"/>
             </g>
           </svg>
         </button>
@@ -45,7 +49,6 @@ export const fanRemote = {
         <button class="mode-button" data-action="timer_4h">◷ &nbsp; 4H</button>
         <button class="mode-button" data-action="timer_8h">◷ &nbsp; 8H</button>
       </div>
-      <div class="design-title design-title-bottom">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>`;
+      `;
   },
 };
-

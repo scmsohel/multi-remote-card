@@ -4,7 +4,7 @@ A modern, customizable **multi-remote card for Home Assistant**.
 
 > **Entity-based by design:** every remote control can be connected to a Home Assistant entity or action. It is not limited to `fan.*` or `light.*`, making it suitable for ESPHome switches/buttons, scripts, helpers, and custom setups.
 
-![Multi-Remote Card preview](https://github.com/scmsohel/multi-remote-card/blob/main/assets/multi-remote-card-preview.svg?raw=true)
+![Multi-Remote Card banner](https://github.com/scmsohel/multi-remote-card-dev/blob/main/assets/banner.png?raw=true)
 
 ## Current status
 
@@ -14,9 +14,12 @@ The project uses a **modular remote-design architecture**. Each physical remote 
 
 ## Remote designs
 
-### Fan
+<details>
+<summary><strong>🌀 Basic Ceiling Fan</strong></summary>
 
-The original **Basic Celling Fan** design remains the stable baseline.
+<br>
+
+The original **Basic Ceiling Fan** design remains the stable baseline.
 
 - Speed 1–6
 - Fan power
@@ -27,9 +30,14 @@ The original **Basic Celling Fan** design remains the stable baseline.
 - 1H / 4H / 8H timers
 - Press feedback / indicator blink
 
-File: `remote-designs/fan.js`
+**File:** `remote-designs/fan.js`
 
-### Walton Ceiling Fan
+</details>
+
+<details>
+<summary><strong>🌀 Walton Ceiling Fan</strong></summary>
+
+<br>
 
 A separate design based on the Walton ceiling-fan remote.
 
@@ -40,17 +48,26 @@ A separate design based on the Walton ceiling-fan remote.
 - ECO
 - Reverse
 
-Default device name: **Walton Ceiling Fan**
+**Default device name:** **Walton Ceiling Fan**
 
-File: `remote-designs/walton-ceiling-fan.js`
+**File:** `remote-designs/walton-ceiling-fan.js`
 
-### Box
+</details>
+
+<details>
+<summary><strong>🔊 Box / Fenda Sound Box</strong></summary>
+
+<br>
 
 Reserved for the Fenda sound-box remote. It currently uses a placeholder layout.
 
-Default device name: **Fenda Sound Box**
+**Default device name:** **Fenda Sound Box**
 
-File: `remote-designs/box.js`
+**File:** `remote-designs/box.js`
+
+</details>
+
+> Future remote designs can be added here as separate expandable sections, keeping the README clean as the project grows.
 
 ## Entity-based controls
 
@@ -72,27 +89,14 @@ With **Multiple Remote OFF**, only one remote is shown.
 
 With **Multiple Remote ON**, Remote 1 and Remote 2 can each have their own:
 
-- Remote name
 - Remote design
-- Device name
 - Entity/action mappings
 
 Example: **Remote 1 → Walton Ceiling Fan**, **Remote 2 → Fan**.
 
 ## Visual Editor
 
-The editor uses clear labels such as:
-
-- Remote 1 Design
-- Remote 1 Device Name
-- Remote 1 Power
-- Remote 1 LED
-- Remote 1 Speed 1
-- Remote 2 Design
-- Remote 2 Device Name
-- Remote 2 Speed 1
-
-The available controls are generated from the selected remote-design module.
+The available controls are generated from the selected remote-design module, so each design only shows the controls relevant to that remote.
 
 ## Installation
 
@@ -115,7 +119,10 @@ type: module
 
 ## Configuration
 
-Example Walton remote:
+<details>
+<summary><strong>Example: Walton Ceiling Fan configuration</strong></summary>
+
+<br>
 
 ```yaml
 type: custom:multi-remote-card
@@ -140,6 +147,10 @@ rooms:
       eco: script.walton_eco
       reverse: script.walton_reverse
 ```
+
+</details>
+
+Future configuration examples can also be added as separate expandable sections.
 
 ## Project structure
 

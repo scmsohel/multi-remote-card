@@ -23,16 +23,20 @@ const fanRemote = {
     const pct = Number(fan?.attributes?.percentage || 0);
     const speed = pct ? Math.max(1, Math.min(6, Math.round(pct / 100 * 6))) : 0;
     return `
+      <style>
+        .fan-button{transition:box-shadow .1s,filter .1s!important}
+        .fan-button:active{box-shadow:0 3px 8px var(--shadow),inset 0 2px 5px var(--shadow)!important;filter:brightness(.96)!important}
+      </style>
       <div class="fan-area">
         ${[1,2,3,4,5,6].map(n => `<button class="speed s${n} ${speed === n ? 'active' : ''}" data-action="speed_${n}">${n}</button>`).join('')}
         <button class="fan-button ${on ? 'on' : ''}" data-action="fan">
-          <svg class="fan-icon" viewBox="0 0 64 64" aria-hidden="true">
-            <g fill="var(--button-text)">
+          <svg class="fan-icon" style="color:var(--text)!important;fill:var(--text)!important;opacity:1!important" viewBox="0 0 64 64" aria-hidden="true">
+            <g fill="currentColor">
               <path d="M32 30C27 27 27 18 30 11c2-5 7-8 10-5 5 4 2 14-2 21-1 2-3 3-6 3z"/>
               <path d="M35 32c2-5 11-7 18-4 5 2 8 7 5 10-4 5-14 2-21-2-2-1-3-3-2-4z"/>
               <path d="M32 35c5 1 7 10 4 17-2 5-7 8-10 5-5-4-2-14-2-21-1-2 3-3 4-1z"/>
               <path d="M29 33c-1 5-10 7-17 4-5-2-8-7-5-10 4-5 14-2 21 2 2 1 3 3 1 4z"/>
-              <circle cx="32" cy="32" r="6" fill="var(--button-text)"/>
+              <circle cx="32" cy="32" r="6" fill="currentColor"/>
             </g>
           </svg>
         </button>
@@ -49,7 +53,7 @@ const fanRemote = {
         <button class="mode-button" data-action="timer_4h">◷ &nbsp; 4H</button>
         <button class="mode-button" data-action="timer_8h">◷ &nbsp; 8H</button>
       </div>
-      <div class="design-title design-title-bottom">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>`;
+      `;
   },
 };
 // Modern segmented Walton remote layout.
@@ -92,8 +96,8 @@ const waltonCeilingFanRemote = {
         .walton-speed:active{transform:translate(-50%,-50%) translateY(2px)!important;box-shadow:0 3px 8px var(--shadow),inset 0 2px 5px var(--shadow)!important;filter:brightness(.96)!important}
         .walton-center{position:absolute!important;left:50%;top:50%;width:78px!important;height:78px!important;min-width:78px!important;min-height:78px!important;padding:0!important;transform:translate(-50%,-50%)!important;border:0!important;border-radius:50%!important;background:var(--button)!important;color:var(--button-text)!important;display:grid!important;place-items:center;cursor:pointer;box-shadow:inset 0 2px 7px var(--shadow),0 7px 16px var(--shadow)!important;transition:transform .1s,box-shadow .1s,filter .1s!important}
         .walton-center:active{transform:translate(-50%,-50%) translateY(2px)!important;box-shadow:inset 0 4px 9px var(--shadow),0 3px 8px var(--shadow)!important;filter:brightness(.96)!important}.walton-fan-icon{width:38px;height:38px}
-        .walton-timers{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 0 7px}.walton-timers button{height:40px;border-radius:21px;font-size:13px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:5px}
-        .walton-bottom{display:grid;grid-template-columns:1fr 1fr;gap:7px;align-items:stretch}.walton-bottom button{height:44px;border-radius:22px;font-size:14px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:7px;margin:0!important}
+        .walton-timers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 7px}.walton-timers button{height:40px;border-radius:21px;font-size:13px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0}
+        .walton-bottom{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;align-items:stretch;width:100%}.walton-bottom button{width:100%;min-width:0;height:44px;border-radius:22px;font-size:14px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:7px;margin:0!important}
         .walton-device-name{margin:3px 0 0;text-align:center;font-size:12px;font-weight:700;line-height:1.15;opacity:.82}
         @media (max-width:420px){.walton-top{gap:7px;margin-bottom:7px}.walton-pill{height:42px;font-size:13px}.walton-circle{width:100%;max-width:360px}.walton-speed{width:60px!important;height:60px!important;min-width:60px!important;min-height:60px!important;font-size:18px!important}.walton-center{width:70px!important;height:70px!important;min-width:70px!important;min-height:70px!important}.walton-fan-icon{width:35px;height:35px}.walton-timers button{height:39px}.walton-bottom button{height:42px}}
       </style>
@@ -105,11 +109,71 @@ const waltonCeilingFanRemote = {
         </div>
         <div class="walton-timers"><button class="mode-button" data-action="timer_2h">${clockIcon}<span>2H</span></button><button class="mode-button" data-action="timer_4h">${clockIcon}<span>4H</span></button><button class="mode-button" data-action="timer_8h">${clockIcon}<span>8H</span></button></div>
         <div class="walton-bottom"><button class="mode-button" data-action="eco">ECO</button><button class="wide-button" data-action="reverse">${revIcon}<span>REV</span></button></div>
-        <div class="walton-device-name">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
       </div>`;
   },
 };
-const boxRemote={id:'box',label:'Box',defaultName:'Fenda Sound Box',controls:[],render(ctx){return `<div class="coming"><div class="coming-icon">▣</div><div class="coming-title">${ctx.escape(ctx.room.device_name||this.defaultName)}</div><div class="coming-text">Box remote design is ready to be configured.</div></div>`;}};
+const boxRemote = {
+  id: 'box',
+  label: 'Box',
+  defaultName: 'Fenda Sound Box',
+  controls: [
+    { key: 'power', label: 'Power', type: 'entity' },
+    { key: 'mute', label: 'Mute', type: 'entity' },
+    { key: 'light', label: 'Light', type: 'entity' },
+    { key: 'bluetooth', label: 'Bluetooth', type: 'entity' },
+    { key: 'usb', label: 'USB', type: 'entity' },
+    { key: 'aux', label: 'AUX', type: 'entity' },
+    { key: 'volume_up', label: 'Volume +', type: 'entity' },
+    { key: 'volume_down', label: 'Volume -', type: 'entity' },
+    { key: 'previous', label: 'Previous', type: 'entity' },
+    { key: 'play_pause', label: 'Play / Pause', type: 'entity' },
+    { key: 'next', label: 'Next', type: 'entity' },
+    { key: 'preset_1', label: 'Preset 1 Action', type: 'entity' },
+    { key: 'preset_1_label', label: 'Preset 1 Name', type: 'text' },
+    { key: 'preset_2', label: 'Preset 2 Action', type: 'entity' },
+    { key: 'preset_2_label', label: 'Preset 2 Name', type: 'text' },
+  ],
+  render(ctx) {
+    const p1 = ctx.escape(ctx.room.preset_1_label || ctx.room.actions?.preset_1_label || 'P1');
+    const p2 = ctx.escape(ctx.room.preset_2_label || ctx.room.actions?.preset_2_label || 'P2');
+    return `
+      <style>
+        .box-remote{width:100%;max-width:570px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+        .box-remote *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        .box-shell{padding:18px;border-radius:30px;background:linear-gradient(145deg,var(--c1),var(--c2));border:1px solid var(--border);box-shadow:inset 0 1px 0 var(--border),0 16px 34px var(--shadow)}
+        .box-button{border:0;background:var(--button);color:var(--button-text);box-shadow:0 7px 16px var(--shadow);cursor:pointer;transition:box-shadow .1s,filter .1s!important;font:inherit;font-weight:750}
+        .box-top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+        .box-top .box-button{height:54px;border-radius:27px;font-size:15px;letter-spacing:.4px}
+        .box-power{color:#ff5b62!important}
+        .box-stage{position:relative;height:390px;margin:0 0 16px}
+        .box-stage::before{content:"";position:absolute;left:50%;top:50%;width:304px;height:304px;border:1px solid color-mix(in srgb,var(--border) 78%,transparent);border-radius:50%;transform:translate(-50%,-50%);box-shadow:inset 0 0 24px color-mix(in srgb,var(--shadow) 45%,transparent);pointer-events:none}
+        .box-source{position:absolute;z-index:2;width:82px;height:82px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px;line-height:1.05;letter-spacing:.2px}
+        .box-source .source-icon{font-size:24px;line-height:1;font-weight:800}.box-source .source-label{font-size:11px;font-weight:800}
+        .box-light{left:2%;top:5%}.box-bt{right:2%;top:5%}.box-usb{left:2%;bottom:5%}.box-aux{right:2%;bottom:5%;gap:6px}.box-aux .source-icon{font-size:28px}.box-aux .source-label{font-size:13px}
+        .box-control{position:absolute;z-index:3;left:50%;top:50%;width:258px;height:258px;transform:translate(-50%,-50%)}
+        .box-control .box-button{position:absolute;display:flex;align-items:center;justify-content:center}
+        .box-control .box-button:active{box-shadow:0 3px 8px var(--shadow),inset 0 2px 5px var(--shadow)!important;filter:brightness(.96)!important}
+        .box-vol-up{left:50%;top:0;transform:translateX(-50%);width:96px;height:68px;border-radius:28px!important;font-size:32px;line-height:1}
+        .box-prev{left:0;top:50%;transform:translateY(-50%);width:76px;height:70px;border-radius:22px!important;font-size:27px}
+        .box-play{left:50%;top:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%!important;font-size:25px}
+        .box-next{right:0;top:50%;transform:translateY(-50%);width:76px;height:70px;border-radius:22px!important;font-size:27px}
+        .box-vol-down{left:50%;bottom:0;transform:translateX(-50%);width:96px;height:68px;border-radius:28px!important;font-size:32px;line-height:1}
+        .box-presets{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:15px;border-top:1px solid var(--border)}.box-preset{height:62px;border-radius:22px;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 16px}
+        @media(max-width:430px){.box-shell{padding:11px;border-radius:24px}.box-top{gap:8px;margin-bottom:12px}.box-top .box-button{height:46px;font-size:13px}.box-stage{height:310px;margin-bottom:12px}.box-stage::before{width:238px;height:238px}.box-source{width:66px;height:66px}.box-source .source-icon{font-size:20px}.box-source .source-label{font-size:9px}.box-light{left:0;top:5%}.box-bt{right:0;top:5%}.box-usb{left:0;bottom:5%}.box-aux{right:0;bottom:5%}.box-aux .source-icon{font-size:23px}.box-aux .source-label{font-size:11px}.box-control{width:202px;height:202px}.box-vol-up,.box-vol-down{width:80px;height:56px;font-size:27px}.box-prev,.box-next{width:62px;height:60px;font-size:23px}.box-play{width:68px;height:68px;font-size:22px}.box-preset{height:54px;border-radius:20px;font-size:14px}}
+      </style>
+      <div class="box-remote"><div class="box-shell">
+        <div class="box-top"><button class="box-button box-power" data-action="power">⏻ &nbsp; POWER</button><button class="box-button" data-action="mute">🔇 &nbsp; MUTE</button></div>
+        <div class="box-stage">
+          <button class="box-button box-source box-light" data-action="light"><span class="source-icon">💡</span><span class="source-label">LIGHT</span></button>
+          <button class="box-button box-source box-bt" data-action="bluetooth"><span class="source-icon">BT</span><span class="source-label">BT</span></button>
+          <button class="box-button box-source box-usb" data-action="usb"><span class="source-icon">▣</span><span class="source-label">USB</span></button>
+          <button class="box-button box-source box-aux" data-action="aux"><span class="source-icon">⌁</span><span class="source-label">AUX</span></button>
+          <div class="box-control"><button class="box-button box-vol-up" data-action="volume_up">＋</button><button class="box-button box-prev" data-action="previous">⏮</button><button class="box-button box-play" data-action="play_pause">▶❚❚</button><button class="box-button box-next" data-action="next">⏭</button><button class="box-button box-vol-down" data-action="volume_down">−</button></div>
+        </div>
+        <div class="box-presets"><button class="box-button box-preset" data-action="preset_1">${p1}</button><button class="box-button box-preset" data-action="preset_2">${p2}</button></div>
+      </div></div>`;
+  },
+};
 const REMOTE_DESIGNS=[fanRemote,waltonCeilingFanRemote,boxRemote],DESIGN_MAP=Object.fromEntries(REMOTE_DESIGNS.map(d=>[d.id,d]));
 
 class MultiRemoteCard extends HTMLElement{
@@ -129,10 +193,10 @@ class MultiRemoteCardEditor extends HTMLElement{
  constructor(){super();this.attachShadow({mode:'open'});this._config={};this._hass=null;this._multiple=false;this._form=null;this._switch=null;}
  setConfig(c){this._config=c||{};this._multiple=this._config.multiple_remotes===true;this._build();} set hass(v){this._hass=v;if(this._form)this._form.hass=v;else this._build();}
  _old(n){const r=this._config.rooms||{};return r[`remote${n}`]||r[n===1?'bedroom':'lounge']||{};} _design(n){return this._old(n).design||(n===2?'box':'fan');}
- _value(n,k){const r=this._old(n);if(k==='design')return this._design(n);if(k==='name')return r.name||(n===1?'BEDROOM':'LOUNGE');if(k==='device_name')return r.device_name||r.fan_name||(DESIGN_MAP[this._design(n)]||fanRemote).defaultName;if(k==='fan'||k==='light')return r[k]||'';return r.actions?.[k]||r[k]||'';}
- _schema(n){const p=`remote${n}_`,d=DESIGN_MAP[this._design(n)]||fanRemote,fields=[{name:p+'design',label:`Remote ${n} Design`,selector:{select:{options:REMOTE_DESIGNS.map(x=>({value:x.id,label:x.label})),mode:'dropdown'}}}];if(this._multiple)fields.push({name:p+'name',label:`Remote ${n} Name`,selector:{text:{}}});fields.push({name:p+'device_name',label:`Remote ${n} Device Name`,selector:{text:{}}});for(const c of d.controls)fields.push({name:p+c.key,label:`Remote ${n} ${c.label}`,selector:{entity:{}}});return fields;}
+ _value(n,k){const r=this._old(n);if(k==='design')return this._design(n);if(k==='name')return r.name||(n===1?'BEDROOM':'LOUNGE');if(k==='device_name')return r.device_name||r.fan_name||(DESIGN_MAP[this._design(n)]||fanRemote).defaultName;if(k==='fan'||k==='light'||k.endsWith('_label'))return r[k]||'';return r.actions?.[k]||r[k]||'';}
+ _schema(n){const p=`remote${n}_`,d=DESIGN_MAP[this._design(n)]||fanRemote,fields=[{name:p+'design',label:`Remote ${n} Design`,selector:{select:{options:REMOTE_DESIGNS.map(x=>({value:x.id,label:x.label})),mode:'dropdown'}}}];if(this._multiple)fields.push({name:p+'name',label:`Remote ${n} Name`,selector:{text:{}}});for(const c of d.controls)fields.push({name:p+c.key,label:`Remote ${n} ${c.label}`,selector:c.type==='text'?{text:{}}:{entity:{}}});return fields;}
  _data(n){const d=DESIGN_MAP[this._design(n)]||fanRemote,o={};for(const k of ['design','name','device_name'])o[`remote${n}_${k}`]=this._value(n,k);for(const c of d.controls)o[`remote${n}_${c.key}`]=this._value(n,c.key);return o;}
- _collect(v){const make=n=>{const id=v[`remote${n}_design`]||this._design(n),d=DESIGN_MAP[id]||fanRemote,a={};for(const c of d.controls){const x=v[`remote${n}_${c.key}`];if(x)a[c.key]=x;}return{name:this._multiple?(v[`remote${n}_name`]||`REMOTE ${n}`):undefined,design:id,device_name:v[`remote${n}_device_name`]||d.defaultName,fan:v[`remote${n}_fan`]||'',light:v[`remote${n}_light`]||'',actions:a};};return{...this._config,multiple_remotes:this._multiple,theme:v.theme||this._config.theme||'auto',rooms:{remote1:make(1),...(this._multiple?{remote2:make(2)}:{})}};}
+ _collect(v){const make=n=>{const id=v[`remote${n}_design`]||this._design(n),d=DESIGN_MAP[id]||fanRemote,a={};const extra={};for(const c of d.controls){const x=v[`remote${n}_${c.key}`];if(c.type==='text'){if(x)extra[c.key]=x;}else if(x)a[c.key]=x;}return{name:this._multiple?(v[`remote${n}_name`]||`REMOTE ${n}`):undefined,design:id,device_name:v[`remote${n}_device_name`]||d.defaultName,fan:v[`remote${n}_fan`]||'',light:v[`remote${n}_light`]||'',...extra,actions:a};};return{...this._config,multiple_remotes:this._multiple,theme:v.theme||this._config.theme||'auto',rooms:{remote1:make(1),...(this._multiple?{remote2:make(2)}:{})}};}
  _build(){if(!this._hass)return;this.shadowRoot.innerHTML=`<div class="box"><div class="row"><span>Multiple Remote</span><ha-switch id="multi"></ha-switch></div><ha-form id="form"></ha-form></div><style>.box{padding:8px 0}.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:500}</style>`;this._switch=this.shadowRoot.querySelector('#multi');this._form=this.shadowRoot.querySelector('#form');this._switch.checked=this._multiple;this._form.hass=this._hass;this._form.schema=[{name:'theme',label:'Theme',selector:{select:{options:THEME_OPTIONS,mode:'dropdown'}}},...this._schema(1),...(this._multiple?this._schema(2):[])];this._form.data={theme:this._config.theme||'auto',...this._data(1),...(this._multiple?this._data(2):{})};this._switch.addEventListener('change',()=>{this._multiple=this._switch.checked;this._build();this._emit(this._form.data||{})});this._form.addEventListener('value-changed',e=>{e.stopPropagation();this._emit(e.detail.value||{})});}
  _emit(v){this.dispatchEvent(new CustomEvent('config-changed',{detail:{config:this._collect(v)},bubbles:true,composed:true}));}
 }
