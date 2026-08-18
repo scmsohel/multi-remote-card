@@ -19,7 +19,6 @@ export const fanRemote = {
     const pct = Number(fan?.attributes?.percentage || 0);
     const speed = pct ? Math.max(1, Math.min(6, Math.round(pct / 100 * 6))) : 0;
     return `
-      <div class="design-title">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>
       <div class="fan-area">
         ${[1,2,3,4,5,6].map(n => `<button class="speed s${n} ${speed === n ? 'active' : ''}" data-action="speed_${n}">${n}</button>`).join('')}
         <button class="fan-button ${on ? 'on' : ''}" data-action="fan">
@@ -45,6 +44,7 @@ export const fanRemote = {
         <button class="mode-button" data-action="timer_1h">◷ &nbsp; 1H</button>
         <button class="mode-button" data-action="timer_4h">◷ &nbsp; 4H</button>
         <button class="mode-button" data-action="timer_8h">◷ &nbsp; 8H</button>
-      </div>`;
+      </div>
+      <div class="design-title design-title-bottom">${ctx.escape(ctx.room.device_name || this.defaultName)}</div>`;
   },
 };
