@@ -1,0 +1,26 @@
+name: Release Multi-Remote Card
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create v1.0.0 release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v1.0.0 --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "v1.0.0 already exists. Nothing to do."
+          else
+            gh release create v1.0.0 \
+              --repo "${{ github.repository }}" \
+              --target main \
+              --title "Multi-Remote Card v1.0.0" \
+              --generate-notes
+          fi
